@@ -1,3 +1,3 @@
 module Opus
-  VERSION = "0.0.1"
+  VERSION = "110000000.0.1"
 end
