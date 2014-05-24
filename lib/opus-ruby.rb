@@ -25,7 +25,7 @@ module Opus
     OPUS_SET_BITRATE_REQUEST              = 4002
     OPUS_SET_VBR_REQUEST                  = 4006
     OPUS_RESET_STATE                      = 4028
-  end
+  end 
 
   attach_function :opus_encoder_get_size, [:int], :int
   attach_function :opus_encoder_create, [:int32, :int, :int, :pointer], :pointer
@@ -42,4 +42,5 @@ module Opus
   attach_function :opus_decode_float, [:pointer, :pointer, :int32, :pointer, :int, :int], :int
   attach_function :opus_decoder_ctl, [:pointer, :int, :varargs], :int
   attach_function :opus_decoder_destroy, [:pointer], :void
+  attach_function :opus_packet_get_samples_per_frame, [:pointer, :int32], :int
 end

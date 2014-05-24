@@ -30,10 +30,11 @@ module Opus
 	class Decoder
 		attr_reader :sample_rate, :frame_size, :channels
 
-		def initialize( sample_rate, frame_size, channels )
+		def initialize( sample_rate, frame_size, channels)
 			@sample_rate = sample_rate
 			@frame_size = frame_size
 			@channels = channels
+			@lasterror = 0
 
 			@decoder = Opus.opus_decoder_create sample_rate, channels, nil
 		end
@@ -52,17 +53,40 @@ module Opus
 			packet = FFI::MemoryPointer.new :char, len + 1
 			packet.put_string 0, data
 
-			max_size = @frame_size * @channels
-
+			# Always get correct frame_size, @sample_rate has to be the right value, else we get wrong size! 
+			#@frame_size = Opus.opus_packet_get_samples_per_frame packet, @sample_rate
+			#max_size = @frame_size * @channels
+			# since calculation runs wrong, set it to max. framesize that should occur.
+			max_size = 2880
 			decoded = FFI::MemoryPointer.new :short, max_size + 1
 
 			frame_size = Opus.opus_decode @decoder, packet, len, decoded, max_size, 0
-
-			# The times 2 is very important and caused much grief prior to an IRC
-			# chat with the Opus devs. Just remember a short is 2 bytes... Seems so
-			# simple now...
+			if frame_size < 0 then
+				frame_size = 0
+			end
 			return decoded.read_string_length frame_size * 2
 		end
+
+		def get_lasterror_code
+			return @lasterror
+		end
+
+		def get_lasterror_string
+			errorstring = case @lasterror
+				when 0 then "OK"
+				when -1 then "BAD ARG"
+				when -2 then "BUFFER TOO SMALL"
+				when -3 then "INTERNAL ERROR"
+				when -4	then "INVALID PACKET"
+				when -5 then "UNIMPLEMENTED"
+				when -6 then "INVALID STATE"
+				when -7	then "ALLOC FAIL"
+				else "UNKNOWN ERROR / ERROR NOT DEFINED (should never happen)"
+			return errorstring
+			end
+		end
+
+
 	end
 end
 
