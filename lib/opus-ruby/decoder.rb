@@ -62,6 +62,7 @@ module Opus
 
 			frame_size = Opus.opus_decode @decoder, packet, len, decoded, max_size, 0
 			if frame_size < 0 then
+				@lasterror = frame_size
 				frame_size = 0
 			end
 			return decoded.read_string_length frame_size * 2
