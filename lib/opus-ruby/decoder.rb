@@ -57,7 +57,7 @@ module Opus
 			#@frame_size = Opus.opus_packet_get_samples_per_frame packet, @sample_rate
 			#max_size = @frame_size * @channels
 			# since calculation runs wrong, set it to max. framesize that should occur.
-			max_size = 2880
+			max_size = 5760 #2880
 			decoded = FFI::MemoryPointer.new :short, max_size + 1
 
 			frame_size = Opus.opus_decode @decoder, packet, len, decoded, max_size, 0
@@ -66,6 +66,10 @@ module Opus
 				frame_size = 0
 			end
 			return decoded.read_string_length frame_size * 2
+		end
+		
+		def decode_missed
+			Opus.opus_decode @decoder, nil, 0, nil, 0, 0
 		end
 
 		def get_lasterror_code
