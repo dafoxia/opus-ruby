@@ -28,12 +28,12 @@
 
 module Opus
   class Decoder
-  attr_reader :sample_rate, :frame_size, :channels
+    attr_reader :sample_rate, :frame_size, :channels, :lasterror
 
-  def initialize( sample_rate, frame_size, channels)
-    @sample_rate = sample_rate
-    @frame_size = frame_size
-    @channels = channels
+    def initialize(sample_rate, frame_size, channels)
+      @sample_rate = sample_rate
+      @frame_size = frame_size
+      @channels = channels
       @lasterror = 0
 
       @decoder = Opus.opus_decoder_create sample_rate, channels, nil
@@ -47,7 +47,7 @@ module Opus
       Opus.opus_decoder_ctl @decoder, Opus::Constants::OPUS_RESET_STATE, :pointer, nil
     end
 
-    def decode( data )
+    def decode(data)
       len = data.size
 
       packet = FFI::MemoryPointer.new :char, len + 1
@@ -57,24 +57,26 @@ module Opus
       decoded = FFI::MemoryPointer.new :short, max_size + 1
 
       frame_size = Opus.opus_decode @decoder, packet, len, decoded, max_size, 0
-      if frame_size < 0 then
+      if frame_size < 0
         @lasterror = frame_size
         frame_size = 0
       end
-      return decoded.read_string_length frame_size * 2
+      decoded.read_string frame_size * 2
     end
 
     def decode_missed
       Opus.opus_decode @decoder, nil, 0, nil, 0, 0
     end
 
+    # <b>DEPRECATED:</b> Please use <tt>lasterror</tt> instead.
     def get_lasterror_code
-      return @lasterror
+      warn "[DEPRECATION] `get_lasterror_code` is deprecated.  Please use `lasterror` instead."
+      @lasterror
     end
 
     def get_lasterror_string
-      errorstring = case @lasterror
-        when 0 then "OK"
+      case @lasterror
+        when  0 then "OK"
         when -1 then "BAD ARG"
         when -2 then "BUFFER TOO SMALL"
         when -3 then "INTERNAL ERROR"
@@ -83,8 +85,8 @@ module Opus
         when -6 then "INVALID STATE"
         when -7	then "ALLOC FAIL"
         else "UNKNOWN ERROR / ERROR NOT DEFINED (should never happen)"
-      return errorstring
       end
     end
   end
 end
+
