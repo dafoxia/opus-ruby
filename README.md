@@ -21,14 +21,15 @@ Or install it yourself as:
 ## Usage
 
     # Create new encoder with a sample rate of 48 kHz, a frame size of 480 bytes and 1 channel
-    encoder = Opus::Encoder.new 48000, 480, 1
+    encoder = Opus::Encoder.new 48000, 480, 1, 960
     # Set the bitrate to 32 kbit/s
     encoder.bitrate = 32000
     # Set the VBR rate to 0 (CBR)
     encoder.vbr_rate = 0
+    encoder.signal = Opus::OPUS_SIGNAL_MUSIC
 
     # Encode some raw audio
-    encoded = encoder.encode(raw_audio, 960)
+    encoded = encoder.encode raw_audio
 
     # Safely destroy encoder
     encoder.destroy
