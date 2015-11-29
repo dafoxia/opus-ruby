@@ -1,9 +1,10 @@
 module Opus
   class Encoder
     attr_reader :sample_rate, :frame_size, :channels,
-                :vbr_rate, :bitrate, :signal
+                :vbr_rate, :vbr_constraint, :bitrate, :signal
 
     def initialize(sample_rate, frame_size, channels, size)
+      @vbr_constraint= 0
       @sample_rate = sample_rate
       @frame_size = frame_size
       @channels = channels
@@ -26,6 +27,15 @@ module Opus
     def vbr_rate=(value)
       @vbr_rate = value
       Opus.opus_encoder_ctl @encoder, Opus::Constants::OPUS_SET_VBR_REQUEST, :int32, value
+    end
+    
+    def vbr_contstraint=(value)
+      @vbr_constraint = value
+      Opus.opus_encoder_ctl @encoder, Opus::Constants::OPUS_SET_VBR_CONSTRAINT_REQUEST, :int32, value
+    end
+    
+    def packet_loss_perc=(value)
+      Opus.opus_encoder_ctl @encoder, Opus::Constants::OPUS_SET_PACKET_LOSS_PERC, :int32, value
     end
 
     def bitrate=(value)
