@@ -37,6 +37,10 @@ module Opus
       @signal = value
       Opus.opus_encoder_ctl @encoder, Opus::Constants::OPUS_SET_SIGNAL_REQUEST, :int32, value
     end
+    
+    def set_frame_size frame_size
+       @frame_size = frame_size
+    end
 
     def encode(data)
       @buf.put_string 0, data
