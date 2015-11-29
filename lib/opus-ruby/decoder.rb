@@ -2,6 +2,7 @@
 # The MIT License (MIT)                                                         #
 #                                                                               #
 # Copyright (c) 2014, Aaron Herting 'qwertos' <aaron@herting.cc>                #
+# Copyright (c) 2015, dafoxia <dafoxia@mail.austria.com>                        #
 # Heavily based on code (c) GitHub User 'perrym5' and code found in the         #
 # libopus public documentation.                                                 #
 #                                                                               #
@@ -87,6 +88,8 @@ module Opus
         else "UNKNOWN ERROR / ERROR NOT DEFINED (should never happen)"
       end
     end
+    
+    
   end
 end
 

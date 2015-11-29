@@ -36,7 +36,7 @@ module Opus
     OPUS_SIGNAL_VOICE                     = 3001
     OPUS_SIGNAL_MUSIC                     = 3002
     
-    # WE SHOULD NOT USE THESE (Begin) ------------------------------------------------------------------------
+    # WE SHOULD NOT USE NUMBERS (could change) (Begin) ------------------------------------------------------------------------
     OPUS_SET_APPLICATION_REQUEST          = 4000
     OPUS_GET_APPLICATION_REQUEST          = 4001
     OPUS_SET_BITRATE_REQUEST              = 4002
@@ -65,7 +65,7 @@ module Opus
     OPUS_GET_SIGNAL_REQUEST               = 4025
     
     OPUS_GET_LOOKAHEAD_REQUEST            = 4027
-    OPUS_RESET_STATE                      = 4028 # OLD! should not used anymore
+    OPUS_RESET_STATE                      = 4028 
     OPUS_GET_SAMPLE_RATE_REQUEST          = 4029
 
     OPUS_GET_FINAL_RANGE_REQUEST          = 4031
@@ -81,7 +81,7 @@ module Opus
     OPUS_GET_EXPERT_FRAME_DURATION_REQUEST= 4041
     OPUS_SET_PREDICTION_DISABLED_REQUEST  = 4042
     OPUS_GET_PREDICTION_DISABLED_REQUEST  = 4043
-    # WE SHOULD NOT USE THESE (End) --------------------------------------------------------------------------
+    # WE SHOULD NOT USE NUMBERS (could change) (End) --------------------------------------------------------------------------
     
     
     OPUS_FRAMESIZE_ARG                    = 5000 # Select frame size from the argument (default) 
