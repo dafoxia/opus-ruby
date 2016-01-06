@@ -90,6 +90,10 @@ module Opus
       @out.read_string len
     end
 
+    def encode_ptr(memorypointer)
+      len = Opus.opus_encode @encoder, memorypointer, @frame_size, @out, @size
+      @out.read_string len
+    end
     # Gets the encoder's complexity configuration.
     # @see OPUS_SET_COMPLEXITY
     # @param[out] x <tt>opus_int32 #</tt>: Returns a value in the range 0-10,
