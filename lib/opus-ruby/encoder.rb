@@ -206,7 +206,7 @@ module Opus
     # <dt>1</dt>         <dd>Forced mono</dd>
     # <dt>2</dt>         <dd>Forced stereo</dd>
     #* </dl>
-    def opus_set_force_cannels(value)
+    def opus_set_force_channels(value)
       Opus.opus_encoder_ctl @encoder, Opus::Constants::OPUS_SET_FORCE_CHANNELS_REQUEST, :int32, value
     end
     
